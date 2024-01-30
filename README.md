@@ -10,9 +10,11 @@
 </div>
 
 ### 🛠️ Back-End Tech
-<div align="start">
-  <img src="https://img.shields.io/badge/JAVA-4B4B77?style=for-the-badge&logo=&logoColor=white" />
+<div align="start">	
+	<img src="https://img.shields.io/badge/JAVA-4B4B77?style=for-the-badge&logo=&logoColor=white" />
 	<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" />
+	<img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white" />
+	<img src="https://img.shields.io/badge/apachetomcat-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black" />
 </div>
 
 ### ⚙ Database Tech
@@ -22,4 +24,4 @@
 </div><br>
   
 ## Graduation work from the Department of Computer Software Engineering
-* ### Notion Link: [Unmanned-Enforcement-System-For-Handicapped-Parking-Area]()
+* ### Notion Link: [Unmanned-Enforcement-System-For-Handicapped-Parking-Area](https://www.notion.so/70cf85a1236e40a9a55b3403bad2b5c9?pvs=4)
