@@ -24,4 +24,4 @@
 </div><br>
   
 ## Graduation work from the Department of Computer Software Engineering
-* ### Notion Link: [Unmanned-Enforcement-System-For-Handicapped-Parking-Area](https://www.notion.so/70cf85a1236e40a9a55b3403bad2b5c9?pvs=4)
+* ### Notion Link: [Unmanned-Enforcement-System-For-Handicapped-Parking-Area](https://dear-scale-ef2.notion.site/70cf85a1236e40a9a55b3403bad2b5c9?pvs=4)
