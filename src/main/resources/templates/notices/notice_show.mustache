@@ -1,0 +1,36 @@
+{{>layouts/header}}
+{{>layouts/notice_header}}
+<!--  content  -->
+<!--<div class="text-center mb-2 pt-5" style="margin-top:180px;">-->
+<!--    <label class="fs-2">공지사항</label>-->
+<!--</div>-->
+<div class="mx-5 mt-4 board_view">
+    {{#notice}}
+        <div class="border-top border-3 px-4 pb-3 board_title" style="background:#F6F6F6;">
+            <h5 class="my-3">{{notice_title}}</h5>
+            <ul class="nav mt-4">
+                <li class="nav-item me-3">등록일 : {{created_date}}</li>
+                <li class="nav-item">작성자 : {{notice_writer}}</li>
+            </ul>
+        </div>
+        <div class="board_contents border-top border-bottom px-5 py-4 container-fluid min-vh-100">
+            {{notice_content}}
+        </div>
+        <div class="board_view_btn my-3">
+<!--            <button class="rounded px-2 py-1 bg-dark text-white"><i class="fa-solid fa-bars me-2"></i>목록</button>-->
+            <div class="rounded px-2 py-1 bg-dark text-white text-center justify-content-center d-flex align-items-center" style="width:80px; border-radius: 30px;">
+                <a href="/notices" class="text-white" style="text-decoration: none;"><i class="fa-solid fa-bars me-2"></i>목록</a>
+            </div>
+        </div>
+    {{/notice}}
+</div>
+
+<div class="d-grid gap-2 d-md-flex justify-content-md-center mb-5">
+    <div class="d-inline rounded-5 btn-secondary text-white text-center justify-content-center d-flex align-items-center" style="width:150px; height:40px; border-radius: 30px;">
+        <a href="/notices/{{notice.id}}/edit" class="text-white" style="text-decoration: none;">글수정</a>
+    </div>
+    <div class="d-inline rounded-5 btn-danger text-white text-center justify-content-center d-flex align-items-center" style="width:150px; height:40px; border-radius: 30px;">
+        <a href="/notices/{{notice.id}}/delete" class="text-white" style="text-decoration: none;">삭제</a>
+    </div>
+</div>
+{{>layouts/footer}}

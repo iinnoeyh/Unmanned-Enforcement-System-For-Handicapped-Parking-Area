@@ -1,0 +1,37 @@
+{{>layouts/header}}
+{{>layouts/article_header}}
+<!--  content  -->
+<!--<div class="text-center mb-2 pt-5" style="margin-top:150px;">-->
+<!--    <div class="mb-3">-->
+<!--        <img src="./../img/articles.png" class="rounded" alt="..." style="width:190px; height:160px;">-->
+<!--    </div>-->
+<!--    <label class="fs-2">문의게시판</label>-->
+<!--</div>-->
+<div class="mx-4 board_write mt-3">
+    <table class="table text-center">
+        <thead class="border-black">
+        <tr class="border-top ">
+            <th scope="col" class="py-3">NO.</th>
+            <th scope="col" class="py-3">제목</th>
+            <th scope="col" class="py-3">작성자</th>
+            <th scope="col" class="py-3">작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#articleList}}
+            <tr id="users-{{id}}">
+                <td class="py-3">{{id}}</td>
+                <td class="py-3"><a href="/articles/{{id}}" class="text-dark fw-bold">{{article_title}}</a></td>
+                <td class="py-3">{{article_writer}}</td>
+                <td class="py-3">{{created_date}}</td>
+            </tr>
+        {{/articleList}}
+        </tbody>
+    </table>
+</div>
+<div class="mb-5">
+    <div class="rounded-5 bg-dark text-white text-center justify-content-center m-auto d-flex align-items-center" style="width:150px; height:40px; border-radius: 30px;">
+        <a href="/articles/new" class="text-white" style="text-decoration: none;">글쓰기<i class="fa-solid fa-plus"></i></a>
+    </div>
+</div>
+{{>layouts/footer}}

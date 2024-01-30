@@ -1,0 +1,85 @@
+{{>layouts/header}}
+{{>layouts/notice_header}}
+<!--  content  -->
+<!--<div class="text-center mb-2 pt-5" style="margin-top:180px;">-->
+<!--    <label class="fs-2">공지사항</label>-->
+<!--</div>-->
+<div class="mx-4 board_write">
+<!--  action="/notices/create" method="post"   -->
+    <form>
+        <table class="table">
+            <tr class="border-top">
+                <th class="text-center align-middle">
+                    <label for="notice_title">제목</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="new-notice-title" name="notice_title" aria-valuemax="120" style="height: 40px">
+                    </div>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="new-notice-writer">작성자</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <input class="form-control" id="new-notice-writer" type="text" placeholder="" aria-label="Disabled input example" disabled>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="notice_content">내용</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <textarea class="form-control" id="new-notice-content" name="notice_content" style="height: 100px"></textarea>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button class="btn btn-primary me-md-2" id="notice-create-btn" type="button">확인</button>
+            <button class="btn btn-secondary" type="button">
+                <a href="/notices" class="txt-white">취소</a>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    {
+        // 공지사항 생성 버튼 변수화
+        const noticeCreateBtn = document.querySelector('#notice-create-btn');
+        // 공지사항 클릭 이벤트 감지
+        noticeCreateBtn.addEventListener("click", function() {
+            // 새 공지사항 객체 생성
+            const notice = {
+                // 새 공지사항 본문
+                notice_writer: "홍길동",
+                notice_title: document.querySelector('#new-notice-title').value,
+                notice_content: document.querySelector('#new-notice-content').value
+            };
+            // 공지사항 객체 출력
+            console.log(notice);
+            // fetch() - 비동기 통신을 위한 API
+            const url = "/api/notices";
+            fetch(url, {
+                method: "POST", // POST 요청
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(notice)   // notice 객체를 JSON 문자열로 변환해 전송
+            }).then(res => {
+                // HTTP 응답 코드에 대한 메시지 출력
+                const msg = (res.ok) ? "공지사항이 생성되었습니다." : "공지사항 생성 실패";
+                alert(msg);
+                // 현재 페이지 새로 고침
+                location.replace(`/notices`);
+            });
+        });
+    }
+</script>
+{{>layouts/footer}}

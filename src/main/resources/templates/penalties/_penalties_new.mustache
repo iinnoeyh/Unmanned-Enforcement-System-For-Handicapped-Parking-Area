@@ -1,0 +1,48 @@
+<div class="card my-2" id="penalties-new">
+    <div class="card-body">
+    <!--   페널티 작성 폼     -->
+        <form>
+            <div class="mb-3">
+                <label class="form-label">페널티 내용</label>
+                <textarea type="text" class="form-control" rows="3" id="new-penalty-body"></textarea>
+            </div>
+            <!--     히든 인풋       -->
+            {{#manageShow}}
+                <input type="hidden" id="new-penalty-manage-id" value="{{id}}">
+            {{/manageShow}}
+            <button type="button" class="btn btn-secondary" id="penalty-create-btn">페널티 부과</button>
+        </form>
+    </div>
+</div>
+<script>
+    {
+        // 페널티 생성 버튼 변수화
+        const penaltyCreateBtn = document.querySelector('#penalty-create-btn');
+        // 페널티 클릭 이벤트 감지
+        penaltyCreateBtn.addEventListener("click", function() {
+            // 새 페널티 객체 생성
+            const penalty = {
+                // 새 페널티 본문
+                body: document.querySelector('#new-penalty-body').value,
+                manageId: document.querySelector('#new-penalty-manage-id').value
+            };
+            // 페널티 객체 출력
+            console.log(penalty);
+            // fetch() - 비동기 통신을 위한 API
+            const url = "/api/manage/" + penalty.manageId + "/penalties";
+            fetch(url, {
+                method: "POST", // POST 요청
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(penalty)   // penalty 객체를 JSON 문자열로 변환해 전송
+            }).then(res => {
+                // HTTP 응답 코드에 대한 메시지 출력
+                const msg = (res.ok) ? "페널티가 부과됐습니다." : "페널티 부과 실패";
+                alert(msg);
+                // 현재 페이지 새로 고침
+                window.location.reload();
+            });
+        });
+    }
+</script>

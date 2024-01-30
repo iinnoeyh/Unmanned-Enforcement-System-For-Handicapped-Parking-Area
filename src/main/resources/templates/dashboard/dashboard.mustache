@@ -1,0 +1,134 @@
+{{>layouts/header}}
+<!--  content  -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="height:600px; margin-top:110px;">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner mh-100">
+        <div class="carousel-item active" data-bs-interval="4000">
+            <img src="img/m5.png" class="d-block w-100 object-fit-cover mh-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="4000">
+            <img src="img/m4.png" class="d-block w-100 object-fit-cover mh-100" alt="...">
+        </div>
+        <div class="carousel-item" data-bs-interval="4000">
+            <img src="img/m6.png" class="d-block w-100 object-fit-cover mh-100" alt="...">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- DOBI 목표 -->
+<div class="w-100">
+    <div class="row text-center justify-content-center mt-5 mb-2 w-100">
+        <div class="title-font fs-1">"<b class="text-dobi-color">DOBI</b>로 만드는 불법주차 <b class="text-danger">NO!</b> 무인신고로 안전한 도로환경 <b class="text-primary">YES!</b>"</div>
+        <div><img src="img/main_img.png" class="rounded" alt="..." style=""></div>
+    </div>
+</div>
+<!-- 공지사항, 게시판 이동 이미지 -->
+<div class="w-100 pt-5 pb-2" style="background-color: #ebebeb;">
+    <div class="row text-center justify-content-center mb-2 w-100">
+        <div class="col-md-3">
+            <a class="text-dark" href="/notices">
+                <img src="img/notices.png" class="rounded" alt="..." style="width:160px; height:140px;">
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="text-dark" href="/articles">
+                <img src="img/articles.png" class="rounded" alt="..." style="width:160px; height:140px;">
+            </a>
+        </div>
+    </div>
+
+    <div class="row text-center justify-content-center mb-4 w-100">
+        <div class="col-md-3">
+            <a class="text-dark fs-5 fw-bold" href="/notices">공지사항</a>
+        </div>
+        <div class="col-md-3">
+            <a class="text-dark fs-5 fw-bold" href="/articles">문의 게시판</a>
+        </div>
+    </div>
+</div>
+
+<div class="px-5 py-4" >
+    <div class="row">
+        <div class="col me-4">
+            <div class="fw-bold fs-2 my-3 ">
+                <a class="text-dark" href="/notices">
+                    <span>공지사항</span>
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+            </div>
+            {{#noticeTop3}}
+            <a href="/notices/{{id}}" class="text-dark">
+                <div class="row mb-4" id="notice-{{id}}">
+                    <div class="col-md-1 border-bottom"><span class="p-1 fs-12px rounded" style="background-color: #9CB4CC;"><b>NO.{{id}}</b></span></div>
+                    <div class="col-md-7 border-bottom">{{notice_title}}</div>
+                    <div class="col-md-2 border-bottom text-end">{{notice_writer}}</div>
+                    <div class="col-md-2 border-bottom text-end">{{created_date}}</div>
+                </div>
+            </a>
+            {{/noticeTop3}}
+        </div>
+        <div class="col ms-4">
+            <div class="fw-bold fs-2 my-3">
+                <a class="text-dark" href="/articles">
+                    <span>문의 게시판</span>
+                    <i class="fa-solid fa-plus"></i>
+                </a>
+            </div>
+            {{#articleTop3}}
+            <a href="/articles/{{id}}" class="text-dark">
+                <div class="row mb-4" id="article-{{id}}">
+                    <div class="col-md-1 border-bottom"><span class="p-1 fs-12px rounded" style="background-color: #F2D7D9;"><b>NO.{{id}}</b></span></div>
+                    <div class="col-md-7 border-bottom">{{article_title}}</div>
+                    <div class="col-md-2 border-bottom text-end">{{article_writer}}</div>
+                    <div class="col-md-2 border-bottom text-end">{{created_date}}</div>
+                </div>
+            </a>
+            {{/articleTop3}}
+        </div>
+    </div>
+</div>
+<script>
+    {
+        const myCarouselElement = document.querySelector('#carouselExampleIndicators')
+
+        const carousel = new bootstrap.Carousel(myCarouselElement, {
+          interval: 2000,
+          touch: false
+        });
+
+        const myCarousel = document.getElementById('carouselExampleIndicators')
+
+        myCarousel.addEventListener('slide.bs.carousel', event => {
+          // do something...
+        })
+
+        $(function(){
+          // 이미지 슬라이드 컨트롤를 사용하기 위해서는 carousel를 실행해야한다.
+          $('#carouselExampleIndicators').carousel({
+            // 슬리아딩 자동 순환 지연 시간
+            // false면 자동 순환하지 않는다.
+            interval: 1000,
+            // hover를 설정하면 마우스를 가져대면 자동 순환이 멈춘다.
+            pause: "hover",
+            // 순환 설정, true면 1 -> 2가면 다시 1로 돌아가서 반복
+            wrap: true,
+            // 키보드 이벤트 설정 여부(?)
+            keyboard : true
+          });
+        });
+    }
+</script>
+
+{{>layouts/footer}}

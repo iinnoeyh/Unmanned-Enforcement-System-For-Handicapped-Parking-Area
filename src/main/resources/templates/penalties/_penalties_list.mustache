@@ -1,0 +1,138 @@
+<div id="penalties-list">
+    {{#penaltyDtos}}
+        <div class="card my-2" id="penalties-{{id}}">
+            <div class="card-header">
+                <div class="" style="float:right">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#penalty-edit-modal"
+                            data-bs-id="{{id}}" data-bs-body="{{body}}" data-bs-manage-id="{{manageId}}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger penalty-delete-btn"
+                            data-penalty-id="{{id}}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                {{body}}
+            </div>
+        </div>
+    {{/penaltyDtos}}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="penalty-edit-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">페널티 수정</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!--   페널티 수정 폼   -->
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">페널티 내용</label>
+                        <textarea type="text" class="form-control" rows="3" id="edit-penalty-body"></textarea>
+                    </div>
+                    <!--     히든 인풋       -->
+                    <input type="hidden" id="edit-penalty-id">
+                    <input type="hidden" id="edit-penalty-manage-id">
+                    <div class="d-md-flex justify-content-md-center">
+                        <button type="button" class="btn btn-secondary" id="penalty-update-btn">수정 완료</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 모달 이벤트 처리 -->
+<script>
+    {
+        // 모달 요소 선택
+        const penaltyEditModal = document.querySelector("#penalty-edit-modal");
+        // 모달 이벤트 감지
+        penaltyEditModal.addEventListener("show.bs.modal", function(event) {
+            // 1. 트리거 버튼 선택
+            const triggerBtn = event.relatedTarget;
+            // 2. 데이터 가져오기
+            const id = triggerBtn.getAttribute("data-bs-id");
+            const body = triggerBtn.getAttribute("data-bs-body");
+            const manageId = triggerBtn.getAttribute("data-bs-manage-id");
+            // 3. 수정 폼에 데이터 반영
+            document.querySelector("#edit-penalty-id").value = id;
+            document.querySelector("#edit-penalty-body").value = body;
+            document.querySelector("#edit-penalty-manage-id").value = manageId;
+        });
+    }
+    {
+        // 수정 완료 버튼 선택
+        const penaltyUpdateBtn = document.querySelector("#penalty-update-btn");
+        // 클릭 이벤트 처리
+        penaltyUpdateBtn.addEventListener("click", function() {
+            // 수정 페널티 객체 생성
+            const penalty = {
+                id: document.querySelector("#edit-penalty-id").value,
+                body: document.querySelector("#edit-penalty-body").value,
+                manage_id: document.querySelector("#edit-penalty-manage-id").value
+            };
+            console.log(penalty);
+            // 수정 REST API 호출
+            const url = "/api/penalties/" + penalty.id;
+            fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(penalty)
+            }).then(res => {
+                // HTTP 응답 코드에 따른 메시지 출력
+                const msg = (res.ok) ? "페널티 내용이 수정됐습니다" : "수정 실패";
+                alert(msg);
+                // 현재 페이지 새로 고침
+                window.location.reload();
+            });
+        });
+    }
+</script>
+<!-- 페널티 삭제 -->
+<script>
+    {
+        // 삭제 버튼 선택
+        const penaltyDeleteBtns = document.querySelectorAll(".penalty-delete-btn");
+        // 삭제 버튼 이벤트 처리
+<!--        penaltyDeleteBtn.addEventListener("click", function() {-->
+<!--            console.log("삭제 버튼 클릭됨");-->
+<!--        });-->
+        penaltyDeleteBtns.forEach(btn => {
+            btn.addEventListener("click", (event) => {
+                console.log("삭제 버튼 클릭됨");
+                // 이벤트 발생 요소 선택
+                const penaltyDeleteBtn = event.currentTarget;  //target
+                // 삭제 페널티 id 가져오기
+                const penaltyId = penaltyDeleteBtn.getAttribute("data-penalty-id");
+                console.log(`삭제 버튼 클릭: ${penaltyId}번째 페널티`);
+                // 삭제 REST API 호출
+                const url = `/api/penalties/${penaltyId}`;
+                fetch(url, {
+                    method: "DELETE"
+                }).then(res => {
+                    // 페널티 삭제 실패 처리
+                    console.log(res);
+                    if(!res.ok){
+                        alert("삭제 실패");
+                        return;
+                    }
+                    // 삭제 성공 시 페널티를 화면에서 지우고 메시지 창 띄우기
+                    const target = document.querySelector(`#penalties-${penaltyId}`);
+                    target.remove();
+                    const msg = `${penaltyId}번째 페널티를 삭제했습니다.`;
+                    alert(msg);
+                    // 현재 페이지 새로 고침
+                    window.location.reload();
+                });
+            });
+        });
+    }
+</script>

@@ -1,0 +1,17 @@
+ .btn-check{
+    background-color: #141E46;
+    border-color: #141E46;
+    color: #fff;
+
+    width: 150px;
+    height: 40px;
+ }
+
+ .btn-cancel{
+    background-color: #FF6969;
+    border-color: #FF6969;
+    color: #000;
+
+    width: 150px;
+    height: 40px;
+ }

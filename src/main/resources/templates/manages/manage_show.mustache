@@ -1,0 +1,225 @@
+{{>layouts/manage_header}}
+<!--content-->
+<div class="container-fluid position-relative" style="top: -40px">
+    <div class="px-4 py-4 bg-light rounded-3 container-fluid">
+        {{#manageShow}}
+        <div class="d-grid gap-2 d-md-flex mb-3">
+            <button class="btn btn-secondary text-center" type="button">
+                <i class="fa-solid fa-chevron-left me-1"></i>
+                <a href="/manage" class="text-white">목록</a>
+            </button>
+            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#editModal">회원정보 수정</button>
+            <button type="button" class="btn btn-outline-danger" id="manage-delete-btn"><a href="/manage/{{id}}/delete">회원정보 삭제</a></button>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="me-4" style="float:left;">
+                    <img src="./../img/customer.png" class="rounded" alt="user img" style="width:300px; height:300px;">
+                </div>
+                <div class="" style="float:left;">
+                    <div><label class="mb-3 fs-5">#ID {{id}}</label></div>
+                    <div><label class="mb-3 fs-5">이름: {{name}}</label></div>
+                    <div><label class="mb-3 fs-5">주민등록번호: {{front_resident_num}}-{{back_resident_num}}</label></div>
+                    <div><label class="mb-3 fs-5">주소: {{address}}</label></div>
+                    <div><label class="mb-3 fs-5">전화번호: <span id="phone-number-format-sub">{{phone_number}}</span></label></div>
+                    <div><label class="mb-3 fs-5">차량번호: {{car}}</label></div>
+                    <div><label class="mb-3 fs-5">장애인 여부:
+                        {{#disabled}}장애인{{/disabled}}
+                        {{^disabled}}비장애인{{/disabled}}</label>
+                    </div>
+                </div>
+            </div>
+        {{/manageShow}}
+        </div>
+    </div>
+    <!-- penalty manage -->
+    <div class="ps-4 pt-4 bg-light fs-4"><i class="fa-solid fa-list-ul"></i><label class="ms-2">페널티 관리</label></div>
+    <div class="px-4 pt-2 pb-4 bg-light rounded-3 container-fluid">
+        {{>penalties/_penalties}}
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">정보 수정</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+<!--  action="/manage/update" method="post"  -->
+                <form  id="editForm">
+                    {{#manageShow}}
+                    <input name="id" type="hidden" value="{{id}}">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th scope="col">
+                                <label for="edit-id" class="col-form-label">ID</label>
+                            </th>
+                            <td>
+                                <input type="text" class="form-control" id="edit-manage-id" name="id" value="{{id}}" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                <label for="edit-name" class="col-form-label">이름<b class="ms-2 text-danger">*</b></label>
+                            </th>
+                            <td>
+                                <input type="text" class="form-control" id="edit-manage-name" name="name" value="{{name}}" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                <label class="col-form-label">주민등록번호<b class="ms-2 text-danger">*</b></label>
+                            </th>
+                            <td>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <input type="number" class="form-control" id="edit-manage-front-resident-num" name="front_resident_num" value="{{front_resident_num}}" required>
+                                    </div>
+                                    <span class="col-2 text-center fs-3">-</span>
+                                    <div class="col-5">
+                                        <input type="number" class="form-control" id="edit-manage-back-resident-num" name="back_resident_num" value="{{back_resident_num}}" required>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                <label for="edit-address" class="col-form-label">주소<b class="ms-2 text-danger">*</b></label>
+                            </th>
+                            <td>
+                                <input type="text" class="form-control" id="edit-manage-address" name="address" value="{{address}}" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                <label for="edit-phone-number" class="col-form-label">전화 번호<b class="ms-2 text-danger">*</b></label>
+                            </th>
+                            <td>
+                                <input type="number" class="form-control" id="edit-manage-phone-number" name="phone_number" value="{{phone_number}}" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                <label for="edit-car-number" class="col-form-label">차량 번호<b class="ms-2 text-danger">*</b></label>
+                            </th>
+                            <td>
+                                <input type="text" class="form-control" id="edit-manage-car-number" name="car" value="{{car}}" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="col">
+                                <label for="edit-disabled-person" class="col-form-label">장애인 여부</label>
+                            </th>
+                            <td>
+                                <input type="checkbox" class="" id="edit-manage-disabled" name="disabled" {{#disabled}}checked="checked"{{/disabled}}>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    {{/manageShow}}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button type="button" class="btn btn-primary" id="manage-update-btn">수정 완료</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">수정 취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    {
+         <!-- 주민등록번호 길이 제한 코드 -->
+        // JavaScript를 사용하여 길이를 제한
+        document.getElementById("edit-manage-front-resident-num").addEventListener("input", function() {
+            if (this.value.length > 6) {
+                this.value = this.value.slice(0, 6);
+            }
+        });
+
+        document.getElementById("edit-manage-back-resident-num").addEventListener("input", function() {
+            if (this.value.length > 7) {
+                this.value = this.value.slice(0, 7);
+            }
+        });
+
+        document.getElementById("edit-manage-phone-number").addEventListener("input", function() {
+            if (this.value.length > 11) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+    }
+</script>
+<!-- 전화번호 포맷팅 코드 -->
+<script>
+    {
+        const formatPhoneNumber = (input) => {
+            const cleanInput = input.replaceAll(/[^0-9]/g, "");
+            let result = "";
+            const length = cleanInput.length;
+            if(length === 8) {
+                result = cleanInput.replace(/(\d{4})(\d{4})/, '$1-$2');
+            } else if(cleanInput.startsWith("02") && (length === 9 || length === 10)) {
+                result = cleanInput.replace(/(\d{2})(\d{3,4})(\d{4})/, '$1-$2-$3');
+            } else if(!cleanInput.startsWith("02") && (length === 10 || length === 11)) {
+                result = cleanInput.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+            } else {
+                result = undefined;
+            }
+            console.log(`${input} -> ${result}`);
+            return result;
+        }
+
+        const phoneElement = document.querySelector('#phone-number-format-sub');
+        if (phoneElement) {
+            const phoneNumberFormat = formatPhoneNumber(phoneElement.textContent);
+            if (phoneNumberFormat) {
+                // 포맷팅된 전화번호로 요소의 텍스트 내용을 대체합니다.
+                phoneElement.textContent = phoneNumberFormat;
+            }
+        }
+    }
+</script>
+<!-- REST API EDIT -->
+<script>
+    {
+        // 수정 완료 버튼 선택
+        const manageUpdateBtn = document.querySelector("#manage-update-btn");
+        // 클릭 이벤트 처리
+        manageUpdateBtn.addEventListener("click", function() {
+            // 수정 페널티 객체 생성
+            const manage = {
+                id: document.querySelector("#edit-manage-id").value,
+                name: document.querySelector("#edit-manage-name").value,
+                front_resident_num: document.querySelector("#edit-manage-front-resident-num").value,
+                back_resident_num: document.querySelector("#edit-manage-back-resident-num").value,
+                address: document.querySelector("#edit-manage-address").value,
+                phone_number: document.querySelector("#edit-manage-phone-number").value,
+                car: document.querySelector("#edit-manage-car-number").value,
+                disabled: document.querySelector("#edit-manage-disabled").checked
+            };
+            console.log(manage);
+            // 수정 REST API 호출
+            const url = "/api/manage/" + manage.id;
+            fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(manage)
+            }).then(res => {
+                // HTTP 응답 코드에 따른 메시지 출력
+                const msg = (res.ok) ? "회원정보가 수정됐습니다" : "수정 실패";
+                alert(msg);
+                // 현재 페이지 새로 고침
+                location.reload(true);
+            });
+        });
+    }
+</script>
+
+{{>layouts/manage_footer}}

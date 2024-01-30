@@ -1,0 +1,89 @@
+{{>layouts/header}}
+<div class="text-center mb-2 pt-5" style="margin-top:150px;">
+    <div class="mb-3">
+        <img src="./../../img/notices.png" class="rounded" alt="..." style="width:190px; height:160px;">
+    </div>
+    <label class="fs-2 fw-bold">공지사항</label>
+</div>
+<div class="mx-4 board_write">
+    {{#notice}}
+<!--    action="/notices/update" method="post"    -->
+    <form>
+        <input name="id" type="hidden" id="edit-notice-id" value="{{id}}">
+        <table class="table">
+            <tr class="border-top">
+                <th class="text-center align-middle">
+                    <label for="notice_title">제목</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="edit-notice-title" name="notice_title" value="{{notice_title}}" aria-valuemax="120" style="height: 40px">
+                    </div>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="notice_writer">작성자</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <input class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="notice_content">내용</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <textarea class="form-control" id="edit-notice-content" name="notice_content" style="height: 100px">{{notice_content}}</textarea>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <!--     히든 인풋       -->
+<!--        <input type="hidden" id="edit-notice-id">-->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button class="btn btn-primary me-md-2" id="notice-update-btn" type="button">확인</button>
+            <button class="btn btn-secondary" type="button">
+                <a href="/notices/{{id}}" class="txt-white">취소</a>
+            </button>
+        </div>
+    </form>
+    {{/notice}}
+</div>
+
+<script>
+    {
+        // 수정 완료 버튼 선택
+        const noticeUpdateBtn = document.querySelector("#notice-update-btn");
+        // 클릭 이벤트 처리
+        noticeUpdateBtn.addEventListener("click", function() {
+            // 수정 페널티 객체 생성
+            const notice = {
+                id: document.querySelector("#edit-notice-id").value,
+                notice_title: document.querySelector("#edit-notice-title").value,
+                notice_content: document.querySelector("#edit-notice-content").value
+            };
+            console.log(notice);
+            // 수정 REST API 호출
+            const url = "/api/notices/" + notice.id;
+            fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(notice)
+            }).then(res => {
+                // HTTP 응답 코드에 따른 메시지 출력
+                const msg = (res.ok) ? "공지사항이 내용이 수정됐습니다" : "수정 실패";
+                alert(msg);
+                // 현재 페이지 새로 고침
+                location.replace(`/notices`);
+            });
+        });
+    }
+</script>
+{{>layouts/footer}}

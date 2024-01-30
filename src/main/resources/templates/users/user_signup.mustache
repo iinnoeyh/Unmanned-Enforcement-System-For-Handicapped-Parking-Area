@@ -1,0 +1,93 @@
+{{>layouts/header}}
+<!--content-->
+<div class="pt-5 " style="background-color: #ebebeb; padding-bottom: 100px;" >
+    <div class="mx-auto bg-white p-4" style="width:900px; margin-top:180px;">
+        <div class="m-auto">
+            <div class="text-center">
+                <label class="fw-bold fs-1 my-3">회원가입</label>
+            </div>
+            <form action="/signup" method="post">
+                <label class="fw-bold fs-5 my-2">이름<b class="ms-2 text-danger">*</b></label>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingName" placeholder="Name" name="name" required>
+                    <label for="floatingName">Name</label>
+                </div>
+                <label class="fw-bold fs-5 my-2">아이디<b class="ms-2 text-danger">*</b></label>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="Email@..." name="id" required>
+                    <label for="floatingInput">Email</label>
+                </div>
+                <label class="fw-bold fs-5 my-2">비밀번호<b class="ms-2 text-danger">*</b></label>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" placeholder="비밀번호 최대 15자리" name="password" required>
+                    <label for="floatingPassword">Password</label>
+                </div>
+                <label class="fw-bold fs-5 my-2">주민등록번호<b class="ms-2 text-danger">*</b></label>
+<!--                <div class="form-floating mb-3">-->
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="floatingFrontResidentNum" placeholder="주민등록번호 앞자리" name="front_resident_num" required>
+                                <label for="floatingFrontResidentNum">주민등록번호 앞자리</label>
+                            </div>
+                        </div>
+                        <span class="col-2 text-center fs-3">-</span>
+                        <div class="col-5">
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="floatingBackResidentNum" placeholder="주민등록번호 뒷자리" name="back_resident_num"  required>
+                                <label for="floatingBackResidentNum">주민등록번호 뒷자리</label>
+                            </div>
+                        </div>
+                    </div>
+<!--                </div>-->
+                <label class="fw-bold fs-5 my-2">전화번호<b class="ms-2 text-danger">*</b></label>
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="floatingPhone" placeholder="Phone Number" name="phone_number" required>
+                    <label for="floatingPhone">Phone Number</label>
+                </div>
+                <label class="fw-bold fs-5 my-2">차량번호<b class="ms-2 text-danger">*</b></label>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingCarNum" placeholder="Car Number" name="car_number" required>
+                    <label for="floatingCarNum">Car Number</label>
+                </div>
+                <div class="d-grid gap-2 d-md-flex my-3 justify-content-md-center">
+                    <button class="btn me-md-2 my-3 text-white" type="submit" style="width:350px; height:50px; background-color: #7C81AD;">
+                        회원가입
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    {
+    // 주민등록번호 길이를 제한
+    document.getElementById("floatingFrontResidentNum").addEventListener("input", function() {
+        if (this.value.length > 6) {
+            this.value = this.value.slice(0, 6);
+        }
+    });
+
+    document.getElementById("floatingBackResidentNum").addEventListener("input", function() {
+        if (this.value.length > 7) {
+            this.value = this.value.slice(0, 7);
+        }
+    });
+
+    // 비밀번호 15자리 길이 제한
+    document.getElementById("floatingPassword").addEventListener("input", function() {
+        if (this.value.length > 15) {
+            this.value = this.value.slice(0, 15);
+        }
+    });
+
+    // 전화번호 최대 11자리 길이 제한
+    document.getElementById("floatingPhone").addEventListener("input", function() {
+        if (this.value.length > 11) {
+            this.value = this.value.slice(0, 11);
+        }
+    });
+    }
+</script>
+{{>layouts/footer}}

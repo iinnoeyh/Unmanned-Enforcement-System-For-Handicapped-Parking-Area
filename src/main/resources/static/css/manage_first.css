@@ -1,0 +1,35 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+a {
+  text-decoration: none;
+}
+
+.txt-white{
+    color:white;
+}
+
+.font-navy{
+    color: #192655;
+}
+
+.btn-navy-m{
+    background-color: #435585;
+    color: white;
+}
+
+.search-input{
+    width: 250px;
+    padding: 3px;
+
+    border-radius: 5px;
+    border: 2px solid #B4B4B3;
+}
+
+.hr-3{
+    border: 0;
+    height: 30px;
+    background: #445069;
+}

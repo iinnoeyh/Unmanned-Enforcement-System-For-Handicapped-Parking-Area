@@ -1,0 +1,87 @@
+{{>layouts/header}}
+<div class="text-center mb-2 pt-5" style="margin-top:150px;">
+    <div class="mb-3">
+        <img src="./../../img/articles.png" class="rounded" alt="..." style="width:190px; height:160px;">
+    </div>
+    <label class="fs-2 fw-bold">문의게시판</label>
+</div>
+<div class="mx-4 mt-3 board_write">
+    {{#article}}
+<!--  action="/articles/update" method="post" -->
+    <form>
+        <input name="id" type="hidden" id="edit-article-id" value="{{id}}">
+        <table class="table">
+            <tr class="border-top">
+                <th class="text-center align-middle">
+                    <label for="article_title">제목</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="edit-article-title" name="article_title" value="{{article_title}}" aria-valuemax="120" style="height: 40px">
+                    </div>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="article_writer">작성자</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <input class="form-control" type="text" placeholder="" aria-label="Disabled input example" disabled>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="article_text">내용</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <textarea class="form-control" id="edit-article-content" name="article_content" style="height: 100px">{{article_content}}</textarea>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button class="btn btn-primary me-md-2" type="button" id="article-update-btn">확인</button>
+            <button class="btn btn-secondary" type="button">
+                <a href="/articles/{{id}}" class="txt-white">취소</a>
+            </button>
+        </div>
+    </form>
+    {{/article}}
+</div>
+
+<script>
+    {
+        // 수정 완료 버튼 선택
+        const articleUpdateBtn = document.querySelector("#article-update-btn");
+        // 클릭 이벤트 처리
+        articleUpdateBtn.addEventListener("click", function() {
+            // 수정 페널티 객체 생성
+            const article = {
+                id: document.querySelector("#edit-article-id").value,
+                article_title: document.querySelector("#edit-article-title").value,
+                article_content: document.querySelector("#edit-article-content").value
+            };
+            console.log(article);
+            // 수정 REST API 호출
+            const url = "/api/articles/" + article.id;
+            fetch(url, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(article)
+            }).then(res => {
+                // HTTP 응답 코드에 따른 메시지 출력
+                const msg = (res.ok) ? "게시글이 내용이 수정됐습니다" : "수정 실패";
+                alert(msg);
+                // 현재 페이지 새로 고침
+                location.replace(`/articles`);
+            });
+        });
+    }
+</script>
+{{>layouts/footer}}

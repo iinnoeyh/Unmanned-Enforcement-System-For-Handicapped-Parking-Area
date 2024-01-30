@@ -1,0 +1,84 @@
+{{>layouts/header}}
+{{>layouts/article_header}}
+<!--  content  -->
+<!--<div class="text-center mb-2 pt-5" style="margin-top:180px;">-->
+<!--    <label class="fs-2">문의게시판</label>-->
+<!--</div>-->
+<div class="mx-4 mt-3 board_write">
+<!--  action="/articles/create" method="post"  -->
+    <form>
+        <table class="table">
+            <tr class="border-top">
+                <th class="text-center align-middle">
+                    <label for="article_title">제목</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="new-article-title" name="article_title" aria-valuemax="120" style="height: 40px">
+                    </div>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="new-article-writer">작성자</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <input class="form-control" id="new-article-writer" type="text" placeholder="" aria-label="Disabled input example" value="홍길동" disabled>
+                </td>
+            </tr>
+            <tr class="">
+                <th class="text-center align-middle">
+                    <label for="article_text">내용</label>
+                    <span class="text-danger">*</span>
+                </th>
+                <td>
+                    <div class="form-floating">
+                        <textarea class="form-control" id="new-article-content" name="article_content" style="height: 100px"></textarea>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button class="btn btn-primary me-md-2" id="article-create-btn" type="button">확인</button>
+            <button class="btn btn-secondary" type="button">
+                <a href="/articles" class="txt-white">취소</a>
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    {
+        // 게시글 생성 버튼 변수화
+        const articleCreateBtn = document.querySelector('#article-create-btn');
+        // 게시글 클릭 이벤트 감지
+        articleCreateBtn.addEventListener("click", function() {
+            // 새 게시글 객체 생성
+            const article = {
+                // 새 게시글 본문
+                article_writer: "홍길동",
+                article_title: document.querySelector('#new-article-title').value,
+                article_content: document.querySelector('#new-article-content').value
+            };
+            // 게시글 객체 출력
+            console.log(article);
+            // fetch() - 비동기 통신을 위한 API
+            const url = "/api/articles";
+            fetch(url, {
+                method: "POST", // POST 요청
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(article)   // article 객체를 JSON 문자열로 변환해 전송
+            }).then(res => {
+                // HTTP 응답 코드에 대한 메시지 출력
+                const msg = (res.ok) ? "게시글이 생성되었습니다.." : "게시글 생성 실패";
+                alert(msg);
+                // 페이지 새로 고침
+                location.replace(`/articles`);
+            });
+        });
+    }
+</script>
+{{>layouts/footer}}

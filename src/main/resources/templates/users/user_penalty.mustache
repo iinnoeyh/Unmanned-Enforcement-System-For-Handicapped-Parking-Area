@@ -1,0 +1,24 @@
+{{>layouts/header}}
+{{>layouts/mypage_nav}}
+<!--  content  -->
+<div class="mt-5 mb-3 px-5">
+    <div class="text-center">
+        <label class="fs-2">페널티</label>
+    </div>
+    <div class="px-5 py-4 mt-3 border">
+        {{#customerPenaltyDtos}}
+        <div id="penalties-list">
+            <div class="card my-2" id="user-penalties">
+                <div class="card-header">
+<!--                    2023-11-06 13:23:10-->
+                    <span id="penalty-created-date"><span class="p-1 rounded fs-bold me-3" style="background-color: #748DA6; color:white;">#NO.{{id}}</span><b>PENALTY</b></span>
+                </div>
+                <div class="card-body">
+                    {{body}}
+                </div>
+            </div>
+        </div>
+        {{/customerPenaltyDtos}}
+    </div>
+</div>
+{{>layouts/footer}}

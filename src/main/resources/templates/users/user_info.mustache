@@ -1,0 +1,122 @@
+{{>layouts/header}}
+{{>layouts/mypage_nav}}
+<!--  content  -->
+<div class="mt-5 mb-3 px-5">
+    <div class="text-center">
+        <label class="fs-2">정보 수정</label>
+    </div>
+    <div class="px-5 py-4 mt-3 border">
+        {{#customerEntity}}
+        <form action="" method="">
+            <div class="row mb-3">
+                <div class="col-md-3">이름<span class="text-danger ms-1">*</span></div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="edit-name" name="name" value="{{name}}" readonly>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">아이디<span class="text-danger ms-1">*</span></div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="edit-id" name="id" value="{{id}}" readonly>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">변경할 비밀번호<span class="text-danger ms-1">*</span></div>
+                <div class="col-md-9">
+                    <input type="password" class="form-control" id="edit-password" name="password" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">비밀번호 재확인<span class="text-danger ms-1">*</span></div>
+                <div class="col-md-9">
+                    <input type="password" class="form-control" id="edit-password-re" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">전화번호<span class="text-danger ms-1">*</span></div>
+                <div class="col-md-9">
+                    <input type="number" class="form-control" id="edit-phoneNum" name="phone_number" value="{{phone_number}}" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">차량번호<span class="text-danger ms-1">*</span></div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="edit-carNum" name="car_number" value="{{car_number}}" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">주소<span class="text-danger ms-1">*</span></div>
+                <div class="col-md-9">
+                    <input type="text" class="form-control" id="edit-address" name="address" value="{{address}}" required>
+                </div>
+            </div>
+            <!--        <div class="row mb-3">-->
+            <!--            <div class="col-md-3">생년월일<span class="text-danger ms-1">*</span></div>-->
+            <!--            <div class="col-md-9"></div>-->
+            <!--        </div>-->
+            <!--        <div class="row mb-3">-->
+            <!--            <div class="col-md-3">주소<span class="text-danger ms-1">*</span></div>-->
+            <!--            <div class="col-md-9"></div>-->
+            <!--        </div>        -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5 mb-2">
+                <button class="btn btn-secondary me-md-2" type="submit" style="width:150px; height:40px; border-radius: 30px;">수정완료</button>
+            </div>
+        </form>
+        {{/customerEntity}}
+    </div>
+</div>
+<script>
+    {
+        // 비밀번호 15자리 길이 제한
+        document.getElementById("edit-password").addEventListener("input", function() {
+            if (this.value.length > 15) {
+                this.value = this.value.slice(0, 15);
+            }
+        });
+
+        // 비밀번호 15자리 길이 제한
+        document.getElementById("edit-password-re").addEventListener("input", function() {
+            if (this.value.length > 15) {
+                this.value = this.value.slice(0, 15);
+            }
+        });
+
+        // 전화번호 최대 11자리 길이 제한
+        document.getElementById("edit-phoneNum").addEventListener("input", function() {
+            if (this.value.length > 11) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+}
+</script>
+<!-- 전화번호 포맷팅 코드 -->
+<script>
+    {
+        const formatPhoneNumber = (input) => {
+            const cleanInput = input.replaceAll(/[^0-9]/g, "");
+            let result = "";
+            const length = cleanInput.length;
+            if(length === 8) {
+                result = cleanInput.replace(/(\d{4})(\d{4})/, '$1-$2');
+            } else if(cleanInput.startsWith("02") && (length === 9 || length === 10)) {
+                result = cleanInput.replace(/(\d{2})(\d{3,4})(\d{4})/, '$1-$2-$3');
+            } else if(!cleanInput.startsWith("02") && (length === 10 || length === 11)) {
+                result = cleanInput.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+            } else {
+                result = undefined;
+            }
+            console.log(`${input} -> ${result}`);
+            return result;
+        }
+
+        const phoneElement = document.querySelector('#edit-phoneNum');
+        if (phoneElement) {
+            const phoneNumberFormat = formatPhoneNumber(phoneElement.textContent);
+            if (phoneNumberFormat) {
+                // 포맷팅된 전화번호로 요소의 텍스트 내용을 대체합니다.
+                phoneElement.textContent = phoneNumberFormat;
+            }
+        }
+    }
+</script>
+{{>layouts/footer}}

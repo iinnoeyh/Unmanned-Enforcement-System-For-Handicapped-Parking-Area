@@ -1,0 +1,283 @@
+{{>layouts/manage_header}}
+<div class="container-fluid position-relative" style="top: -40px">
+    <div class="px-4 py-4 bg-light rounded-3 container-fluid">
+        <div>
+            {{#keyword}}
+            <form method="get" action="/manage" style="float:left; margin-bottom: 0;">
+                <input type="text" class="search-input" name="keyword" placeholder="차량 번호를 입력하세요" value="{{keyword}}">
+                <button type="submit" class="btn btn-navy-m"><i class="fa-solid fa-magnifying-glass me-1"></i>Search</button>
+<!--                <input type="submit" value="검색">-->
+            </form>
+            {{/keyword}}
+<!--            <input class="align-middle nav-item">-->
+<!--            <button type="button" class="btn btn-primary">Search</button>-->
+            <button type="button" class="ms-2 btn btn-navy-m" data-bs-toggle="modal" data-bs-target="#addModal">
+                <i class="fa-solid fa-plus me-1"></i>Add
+            </button>
+        </div>
+        <hr>
+        <table class="table text-center">
+            <thead>
+            <tr class="table-secondary">
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">주민등록번호</th>
+                <th scope="col">PhoneNum</th>
+                <th scope="col">CarNum</th>
+                <th scope="col">장애인 여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#manageList}}
+            <tr id="users-{{id}}">
+                <th><a href="/manage/{{id}}" class="font-navy">{{id}}</a></th>
+                <td>{{name}}</td>
+                <td>{{front_resident_num}}-{{back_resident_num}}</td>
+                <td class="phone-number-format">{{phone_number}}</td>
+                <td>{{car}}</td>
+                <td>
+                    {{#disabled}}
+                        장애인
+                    {{/disabled}}
+                    {{^disabled}}
+                        비장애인
+                    {{/disabled}}
+                </td>
+            </tr>
+            {{/manageList}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">정보 추가</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/manage" method="post">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="col">
+                                    <label for="user-name" class="col-form-label">이름<b class="ms-2 text-danger">*</b></label>
+                                </th>
+                                <td>
+                                    <input type="text" class="form-control" id="user-name" name="name" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col">
+                                    <label class="col-form-label">주민등록번호<b class="ms-2 text-danger">*</b></label>
+                                </th>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <input type="number" class="form-control" id="front_resident_num" name="front_resident_num" required>
+                                        </div>
+                                        <span class="col-2 text-center fs-3">-</span>
+                                        <div class="col-5">
+                                            <input type="number" class="form-control" id="back_resident_num" name="back_resident_num" required>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col">
+                                    <label for="create-address" class="col-form-label">주소<b class="ms-2 text-danger">*</b></label>
+                                </th>
+                                <td>
+                                    <input type="text" class="form-control" id="create-address" name="address" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col">
+                                    <label for="phone-number" class="col-form-label">전화 번호<b class="ms-2 text-danger">*</b></label>
+                                </th>
+                                <td>
+                                    <input type="number" class="form-control" id="phone-number" name="phone_number" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col">
+                                    <label for="car-number" class="col-form-label">차량 번호<b class="ms-2 text-danger">*</b></label>
+                                </th>
+                                <td>
+                                    <input type="text" class="form-control" id="car-number" name="car" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="col">
+                                    <label for="disabled-person" class="col-form-label">장애인 여부</label>
+                                </th>
+                                <td>
+                                    <input type="checkbox" class="" id="disabled-person" name="disabled">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    {
+         <!-- 주민등록번호 길이 제한 코드 -->
+        // JavaScript를 사용하여 길이를 제한
+        document.getElementById("front_resident_num").addEventListener("input", function() {
+            if (this.value.length > 6) {
+                this.value = this.value.slice(0, 6);
+            }
+        });
+
+        document.getElementById("back_resident_num").addEventListener("input", function() {
+            if (this.value.length > 7) {
+                this.value = this.value.slice(0, 7);
+            }
+        });
+
+        document.getElementById("phone-number").addEventListener("input", function() {
+            if (this.value.length > 11) {
+                this.value = this.value.slice(0, 11);
+            }
+        });
+    }
+</script>
+<!--<script>-->
+<!--    {-->
+<!--    &lt;!&ndash; Edit 버튼 클릭 시 정보를 가져와 수정 폼에 채우는 JavaScript 코드 &ndash;&gt;-->
+<!--        // 모달 요소 선택-->
+<!--        const editModal = document.querySelector('#editModal');-->
+<!--        // 모달 이벤트 감지-->
+<!--        editModal.addEventListener("show.bs.modal", function(event){-->
+<!--            // 1. 트리거 버튼 선택-->
+<!--            const triggerBtn = event.relatedTarget;-->
+<!--            // 2. 데이터 가져오기-->
+<!--            const id = triggerBtn.getAttribute("data-bs-id");-->
+<!--            const name = triggerBtn.getAttribute("data-bs-name");-->
+<!--            const front_ResidentNum = triggerBtn.getAttribute("data-bs-front-ResidentNum");-->
+<!--            const back_ResidentNum = triggerBtn.getAttribute("data-bs-back-ResidentNum");-->
+<!--            const phone = triggerBtn.getAttribute("data-bs-phone");-->
+<!--            const car = triggerBtn.getAttribute("data-bs-car");-->
+<!--            const disabled = triggerBtn.getAttribute("data-bs-disabled");-->
+<!--            // 3. 수정 폼에 데이터 반영-->
+<!--            document.querySelector("#edit-id").value = id;-->
+<!--            document.querySelector("#edit-name").value = name;-->
+<!--            document.querySelector("#edit-front-ResidentNum").value = front_ResidentNum;-->
+<!--            document.querySelector("#edit-back-ResidentNum").value = back_ResidentNum;-->
+<!--            document.querySelector("#edit-phone-number").value = phone;-->
+<!--            document.querySelector("#edit-car-number").value = car;-->
+<!--            document.querySelector("#edit-disabled-person").checked = disabled === 'true'; // 'true'일 경우 체크-->
+<!--        });-->
+
+
+
+<!--        &lt;!&ndash;   delete: database에서는 삭제X, 화면에서만 삭제 됨     &ndash;&gt;-->
+<!--        // 삭제 버튼 선택-->
+<!--        const deleteBtns = document.querySelectorAll(".delete-btn");-->
+
+<!--        // 삭제 버튼 이벤트 처리-->
+<!--        deleteBtns.forEach(btn => {-->
+<!--            btn.addEventListener("click", (event) => {-->
+<!--                // 이벤트 전파(stopPropagation) 중지-->
+<!--                event.stopPropagation();-->
+
+<!--                // 삭제할 데이터의 ID 가져오기-->
+<!--                const dataId = event.target.getAttribute("data-delete-id");-->
+
+<!--                // 사용자에게 확인 메시지 표시-->
+<!--                if (confirm("정말로 삭제하시겠습니까?")) {-->
+<!--                    // 확인 버튼을 누르면 해당 정보를 화면에서 삭제-->
+<!--                    const target = document.querySelector(`#users-${dataId}`);-->
+<!--                    target.remove();-->
+<!--                    alert(`${dataId}번 정보 삭제 완료`);-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+<!--<script>-->
+<!--    {-->
+<!--        // 삭제 버튼 선택-->
+<!--        const deleteBtns = document.querySelectorAll(".delete-btn");-->
+<!--        // 삭제 버튼 이벤트 처리-->
+<!--&lt;!&ndash;        deleteBtns.addEventListener("click", function() {&ndash;&gt;-->
+<!--&lt;!&ndash;            console.log("삭제 버튼이 클릭 됨");&ndash;&gt;-->
+<!--&lt;!&ndash;        });&ndash;&gt;-->
+<!--        deleteBtns.forEach(btn => { // [삭제] 버튼 수만큼 반복-->
+<!--            btn.addEventListener("click", (event) => {   // 각 버튼의 이벤트 처리, event 객체 받아 오기-->
+<!--                // 이벤트 발생 요소 선택-->
+<!--                const deleteBtn = event.target; // [삭제] 버튼 변수화-->
+<!--                // 삭제 데이터 id 가져오기-->
+<!--                const dataId = deleteBtn.getAttribute("data-delete-id");-->
+<!--                console.log(`삭제 버튼: ${dataId}`);-->
+
+<!--                // 삭제 REST API 호출-->
+<!--                const url = `/manage`;-->
+<!--                fetch(url, {-->
+<!--                    method: "DELETE",-->
+<!--                }).then(response => {-->
+<!--                    // 삭제 실패 처리-->
+<!--                    if(!response.ok) {-->
+<!--                        alert("삭제 실패");-->
+<!--                        return;-->
+<!--                    }-->
+<!--                    // 삭제 성공 시 화면에서 지우고 메시지 창 띄우기-->
+<!--                    const target = document.querySelector(`#users-${dataId}`);-->
+<!--                    target.remove();-->
+<!--                    const msg = `${dataId}번 댓글 삭제 완료`;-->
+<!--                    alert(msg);-->
+
+<!--                    // 현재 페이지 새로 고침-->
+<!--                    window.location.reload();-->
+<!--                });-->
+<!--            });-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+<!-- 전화번호 포맷팅 코드 -->
+<script>
+    {
+        const formatPhoneNumber = (input) => {
+            const cleanInput = input.replaceAll(/[^0-9]/g, "");
+            let result = "";
+            const length = cleanInput.length;
+            if(length === 8) {
+                result = cleanInput.replace(/(\d{4})(\d{4})/, '$1-$2');
+            } else if(cleanInput.startsWith("02") && (length === 9 || length === 10)) {
+                result = cleanInput.replace(/(\d{2})(\d{3,4})(\d{4})/, '$1-$2-$3');
+            } else if(!cleanInput.startsWith("02") && (length === 10 || length === 11)) {
+                result = cleanInput.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
+            } else {
+                result = undefined;
+            }
+            console.log(`${input} -> ${result}`);
+            return result;
+        }
+
+        const phoneElements = document.querySelectorAll('.phone-number-format');
+        // 각 요소에 대해 반복합니다.
+        phoneElements.forEach(element => {
+          // 요소의 텍스트 내용을 가져옵니다.
+          const phoneNumber = element.textContent;
+
+          // 전화번호를 원하는 형식으로 포맷팅합니다. 예를 들어, (XXX) XXX-XXXX 형식으로 포맷팅하겠습니다.
+          const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+
+          // 포맷팅된 전화번호로 요소의 텍스트 내용을 대체합니다.
+          element.textContent = formattedPhoneNumber;
+        });
+    }
+</script>
+{{>layouts/manage_footer}}
